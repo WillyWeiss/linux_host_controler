@@ -1,4 +1,7 @@
 # Linux Host Controler
+## Dependencies
+    - curl
+
 ## What it dose?
 You can use this script as an adblocker but also as an parental/access control preventig users behind the machine to access certain domain/websites
 
