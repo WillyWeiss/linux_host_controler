@@ -11,7 +11,7 @@ Using such a hosts file ensures adblocking, and a good level of privacy from tra
 ```sh
 git clone https://github.com/WillyWeiss/linux_host_controler.git
 cd linux_host_controler
-sudo chmo +x linux_host_controler.sh
+sudo chmod +x linux_host_controler.sh
 ./linux_host_controler.sh
 ```
 
