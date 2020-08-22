@@ -1,25 +1,30 @@
 #!/bin/bash
+
+## Setup the path to original file and to the backup
 original=/etc/hosts
 backup=/etc/hosts.original
 
-
+## Start method
 start(){
+## Check for backup First
 if  [ -f "$backup" ]
 	then
-		MainMenu
-		
+		MainMenu		
     else
     backup_method
 	fi
 }
 
+##Backup Method
 backup_method (){
 
+## Check if there is any hosts file in the first place
 if [ -f "$original" ]
 	then
     echo "Please input your ROOT password:"
 	 sudo cp /etc/hosts /etc/hosts.original
 		MainMenu
+	##If no hosts file are present in the system, create a default one		
     else
         echo "There is no 'hosts' file in your system"
         read -p "Do you want to install the default one? [y/n]" -n 1 confirm
@@ -38,6 +43,7 @@ fe80::1%lo0 localhost\n" >> default
 		
 fi
 }
+## Border method so the menu will look pretty
 border()
 {
     title="| $1 |"
@@ -48,11 +54,15 @@ border()
     echo -e "\e[39m"
     
 }
+
+## Show blocking status.
 status() {
 	local count=$(grep '^0.0.0.0' "$original" | wc -l | tr -d ' ')
 
 	border "$count domains currently blocked"
 }
+
+## Main Menu Method
 MainMenu(){
 clear
 printf "Welcome to Linux Host Controler\n "
@@ -117,8 +127,11 @@ do
 
 done
 }
-activete(){
 
+## Enable Adblocker
+
+activete(){
+## Chech if there is any backup in place if not , we do one.
 if [ -f "$backup" ]
 	then
 		asabler
@@ -141,12 +154,10 @@ if [ -f "$backup" ]
 		sudo cp assabled_hosts /etc/hosts
 		MainMenu
 		fi
-    
 	fi
-
-
 }
 
+## Collect information form multiple lists and create one single hosts file
 asabler(){
 
 echo "Creating local database"
@@ -173,6 +184,8 @@ sleep 2
 rm db1 db2 db3 db4 db5 db6 db7 db8 db9 db10 db11 
 }
 
+## Custom address blocking method. 
+## This will allow the user to use the program as Parental Control or Client Access Control.
 
 blocker(){
 cp /etc/hosts hosts
@@ -183,11 +196,12 @@ echo "$block_address" | tee -a custom_hosts
 sed 's/^/0.0.0.0 / ' custom_hosts | tee -a hosts
 sudo cp hosts /etc/hosts
 rm custom_hosts
-
 clear
 MainMenu
 }
 
+## Custom address unblocker
+## Allow the user to unblock a certain address
 unblocker(){
 cp /etc/hosts hosts
 echo "Please enter the domain , site or IP you will like to block access to."
@@ -198,11 +212,14 @@ clear
 MainMenu
 
 }
+## Disable Adblocker and restore the original hosts file
 deactivate(){
 sudo cp /etc/hosts.original /etc/hosts
 echo "HOSTS file restored"
 sleep 1
 MainMenu
 }
-
+## Start the program
 start
+
+## End of file
